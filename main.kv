@@ -1,0 +1,194 @@
+#:import arabic_reshaper arabic_reshaper
+#:import get_display bidi.algorithm.get_display
+
+<mylayout>
+
+MDBoxLayout:
+    orientation:'vertical'
+    md_bg_color:app.theme_cls.bg_light
+    MDToolbar:
+        title:"ToDo App"
+        elevation: 12
+        right_action_items: [["select-color", lambda x: app.show_theme_picker()],["weather-sunny", lambda x: app.changeTheme()]]
+
+    MDTabs:
+        Tab:
+            title: "todo"
+            MDFloatLayout:
+                md_bg_color:app.theme_cls.bg_light
+                MDLabel:
+                    pos_hint:{'y':0.45}
+                    id:DLabel
+                    font_name:"gandom"
+                    text:f"[font=gandom]{app.date()}[/font]"
+                    markup: True
+                    bold: True
+                    font_style:'H5'
+                    halign:'center'
+
+#                MDBoxLayout:
+#                    id: chip_box
+#                    adaptive_size: True
+#                    orientation:'horizontal'
+#                    padding:[15]
+#                    spacing:10
+#                    pos_hint:{'y':0.8}
+#
+#
+#                    MDChip:
+#                        id:all
+#                        text:"All"
+#                        icon: "check-all"
+#
+#                        color:app.theme_cls.accent_color
+#                        on_press:app.removes_marks_all_chips(self)
+#
+#                    MDChip:
+#                        id:important
+#                        text:"Normal"
+#                        icon: "seat-recline-normal"
+#                        color:app.theme_cls.accent_color
+#                        on_press:app.removes_marks_all_chips(self)
+#
+#
+#                    MDChip:
+#                        id:important
+#                        text:"Important"
+#                        icon: "filter"
+#                        color:app.theme_cls.accent_color
+#                        on_press:app.removes_marks_all_chips(self)
+
+
+                ScrollView:
+                    pos_hint: {'center_y': .44, 'center_x': .5}
+                    size_hint: .9, .9
+
+
+                    MDList:
+                        id: container
+                        font_name:'gandom'
+
+
+
+        Tab:
+            title: "Add"
+
+            MDLabel:
+                pos_hint:{'y':0.45}
+                font_name:"gandom"
+                text:f"[font=gandom]{get_display(arabic_reshaper.reshape('اضافه کردن'))}[/font]"
+                markup: True
+                color:app.theme_cls.accent_color
+                bold: True
+                font_style:'H5'
+
+            MDCard:
+
+                orientation:"vertical"
+                spacing:27
+                pos_hint:{'y':0.1,'center_x':0.5}
+                radius:[15,15,15,15]
+                padding:[20]
+                size_hint:0.9,.8
+
+                MDTextField:
+                    id:task_title
+                    font_name:'gandom'
+                    font_name_hint_text:'gandom'
+                    hint_text:"ADD"
+                    pos_hint:{'y':.8,'center_x':0.5}
+
+
+                MDTextField:
+                    id:task_des
+                    font_name:'gandom'
+                    font_name_hint_text:'gandom'
+                    mode:'rectangle'
+                    hint_text:"description"
+                    multiline:True
+                    max_height:dp(100)
+                    pos_hint:{'y':0.5,'center_x':0.5}
+
+                MDLabel:
+                    text:"select priority"
+                    halign:'center'
+                    font_style:'H6'
+
+                MDBoxLayout:
+                    orientation:'horizontal'
+
+                    MDCheckbox:
+                        id:cc
+                        group:'p'
+                        on_active:app.checked('normal')
+
+                    MDCheckbox:
+
+                        group:'p'
+                        on_active:app.checked('important')
+
+                MDBoxLayout:
+                    orientation:'horizontal'
+                    pos_hint:{'center_x':0.65}
+
+                    MDLabel:
+                        text:'normal'
+
+                    MDLabel:
+                        text:'important'
+
+
+                MDRaisedButton:
+                    text:"ADD"
+                    pos_hint:{'center_x':.5}
+                    on_press:app.add_task(task_title.text,task_des.text)
+                    on_release:task_title.text=""
+                    on_release:task_des.text=""
+
+
+<ListItemWithCheckbox>:
+    id: the_list_item
+    markup: True
+    font_name:'gandom'
+    on_press:root.open_content(self)
+
+
+
+    LeftCheckbox:
+        id: check
+        on_release:
+            root.mark(check, the_list_item)
+
+    IconRightWidget:
+        id:impIcon
+        icon:""
+        theme_text_color: "Custom"
+        text_color: 1, 0, 0, 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
